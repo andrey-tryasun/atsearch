@@ -1,0 +1,32 @@
+{
+  "name": "atsearch",
+  "version": "1.0.0",
+  "description": "NodeJS command-line utility to search files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrey-tryasun/atsearch.git"
+  },
+  "keywords": [
+    "nodejs",
+    "file",
+    "search",
+    "searchfile"
+  ],
+  "bin": {
+    "atsearch": "index.js"
+  },
+  "author": {
+    "name": "Andrey Tryasun",
+    "email": "andrey.tryasun@gmail.com",
+    "link": "https://github.com/andrey-tryasun"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andrey-tryasun/atsearch/issues"
+  },
+  "homepage": "https://github.com/andrey-tryasun/atsearch#readme"
+}
