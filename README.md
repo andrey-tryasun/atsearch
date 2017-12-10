@@ -33,4 +33,4 @@ NodeJS command-line utility to search files
 
 
 ### License and Copyright
-This software is released under the terms of the [ISC license](https://github.com/).
+This software is released under the terms of the [MIT license](https://github.com/andrey-tryasun/atsearch/blob/master/LICENSE.md).
