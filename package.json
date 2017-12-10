@@ -1,6 +1,6 @@
 {
   "name": "atsearch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "NodeJS command-line utility to search files",
   "main": "index.js",
   "scripts": {
