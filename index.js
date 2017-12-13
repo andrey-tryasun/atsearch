@@ -61,33 +61,42 @@ const getSize = string => {
 const minSize = getSize(minSizeStr) || 0;
 const maxSize = getSize(maxSizeStr) || Infinity;
 
-const search = (dir, callback) => {
-    counter++;
-    fs.readdir(dir, (err, files) => {
-        if (err) throw err;
-        files.forEach((file) => {
-            const filePath = path.join(dir, file);
-            fs.stat(filePath, (err, stats) => {
-                if (err) throw err;
-                if (((type === 'F' && stats.isFile() && stats.size >= minSize && stats.size <= maxSize) ||
-                        (type === 'D' && stats.isDirectory())) &&
-                    file.match(pattern)) {
-                    results.push(filePath);
-                }
-                if (stats.isDirectory()) {
-                    search(filePath, callback);
-                }
+(() => {
+    const results = [];
+    let counter = 0;    // number of recursion calls
+    let thread = 0;     // number of threads
+
+    const showResults = (results) => {
+        results.forEach(item => console.log(item));
+        console.log(`\nFound ${results.length} items`);
+    };
+
+    const getFiles = (dir, callback) => {
+        counter++;
+        fs.readdir(dir, (err, files) => {
+            if (err) throw err;
+            thread++;
+            let cursor = {item: files.length, parent: thread};
+            files.forEach((file) => {
+                const filePath = path.join(dir, file);
+                fs.stat(filePath, (err, stats) => {
+                    if (err) throw err;
+                    if (((type === 'F' && stats.isFile() &&
+                          stats.size >= minSize &&
+                          stats.size <= maxSize) ||
+                          (type === 'D' && stats.isDirectory())) &&
+                          file.match(pattern)) {
+                            results.push(filePath);
+                    }
+                    if (stats.isDirectory()) {
+                        getFiles(filePath, callback);
+                    }
+                    if (counter === thread && cursor.parent === thread && !--cursor.item) callback(results);
+                });
             });
         });
-        counter--;
-        if (counter === 0 && results.length > 0) callback();
-    });
-};
+    };
 
-const results = [];
-let counter = 0;
-const showResults = () => {
-    console.log(`Found ${results.length} items:`);
-    results.map(item => console.log(item));
-};
-search(dir, showResults);
+    getFiles(dir, showResults);
+
+})(dir);
